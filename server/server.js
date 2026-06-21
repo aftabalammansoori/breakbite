@@ -3,7 +3,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import connectDB from './config/db.js';
 import MenuItem from './models/MenuItem.js';  
-
+import authRoutes from './routes/authRoutes.js';
 dotenv.config();
 
 const app = express();
@@ -18,6 +18,10 @@ app.get('/api/health', (req, res) => {
     timestamp: new Date().toISOString()
   });
 });
+
+// Auth routes
+app.use('/api/auth', authRoutes);
+
 
 // ─── MENU ITEMS API (test) ─────────────────────────────────
 
