@@ -2,8 +2,10 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import connectDB from './config/db.js';
-import MenuItem from './models/MenuItem.js';  
+import MenuItem from './models/MenuItem.js';
 import authRoutes from './routes/authRoutes.js';
+import slotRoutes from './routes/slotRoutes.js';
+import bookingRoutes from './routes/bookingRoutes.js';
 dotenv.config();
 
 const app = express();
@@ -11,6 +13,8 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+
+// ─── HEALTH CHECK ──────────────────────────────────────────
 app.get('/api/health', (req, res) => {
   res.json({ 
     status: 'OK', 
@@ -19,13 +23,12 @@ app.get('/api/health', (req, res) => {
   });
 });
 
-// Auth routes
+// ─── ROUTES ────────────────────────────────────────────────
 app.use('/api/auth', authRoutes);
+app.use('/api/slots', slotRoutes);
+app.use('/api/bookings', bookingRoutes);
 
-
-// ─── MENU ITEMS API (test) ─────────────────────────────────
-
-// POST /api/menu — add a new menu item
+// ─── MENU ITEMS API ────────────────────────────────────────
 app.post('/api/menu', async (req, res) => {
   try {
     const newItem = await MenuItem.create(req.body);
@@ -41,7 +44,6 @@ app.post('/api/menu', async (req, res) => {
   }
 });
 
-// GET /api/menu — fetch all menu items
 app.get('/api/menu', async (req, res) => {
   try {
     const items = await MenuItem.find();
