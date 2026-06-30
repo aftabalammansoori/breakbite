@@ -6,6 +6,7 @@ import MenuItem from './models/MenuItem.js';
 import authRoutes from './routes/authRoutes.js';
 import slotRoutes from './routes/slotRoutes.js';
 import bookingRoutes from './routes/bookingRoutes.js';
+import adminRoutes from './routes/adminRoutes.js';
 dotenv.config();
 
 const app = express();
@@ -27,7 +28,7 @@ app.get('/api/health', (req, res) => {
 app.use('/api/auth', authRoutes);
 app.use('/api/slots', slotRoutes);
 app.use('/api/bookings', bookingRoutes);
-
+app.use('/api/admin', adminRoutes);
 // ─── MENU ITEMS API ────────────────────────────────────────
 app.post('/api/menu', async (req, res) => {
   try {
