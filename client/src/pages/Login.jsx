@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { motion } from 'framer-motion'
 import axios from 'axios'
 
 function Login() {
@@ -19,7 +20,6 @@ function Login() {
         email,
         password,
       })
-      // Save user + token in localStorage so user stays logged in
       localStorage.setItem('breakbite_user', JSON.stringify(res.data.data))
       navigate('/menu')
     } catch (err) {
@@ -31,24 +31,41 @@ function Login() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-breakbite-dark text-breakbite-cream px-4">
-      <div className="w-full max-w-md">
-        <div className="text-center mb-8">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, ease: 'easeOut' }}
+        className="w-full max-w-md"
+      >
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.1, duration: 0.4 }}
+          className="text-center mb-8"
+        >
           <h1 className="text-5xl font-bold text-breakbite-accent mb-2">
             BreakBite 🍱
           </h1>
           <p className="text-breakbite-cream/70">Welcome back!</p>
-        </div>
+        </motion.div>
 
-        <form
+        <motion.form
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2, duration: 0.5 }}
           onSubmit={handleSubmit}
-          className="border border-breakbite-accent/30 rounded-lg p-6 space-y-4"
+          className="border border-breakbite-accent/30 rounded-lg p-6 space-y-4 backdrop-blur-sm"
         >
           <h2 className="text-2xl font-bold mb-4">Login</h2>
 
           {error && (
-            <p className="bg-red-500/10 border border-red-500/30 text-red-400 px-4 py-2 rounded text-sm">
+            <motion.p
+              initial={{ opacity: 0, x: -10 }}
+              animate={{ opacity: 1, x: 0 }}
+              className="bg-red-500/10 border border-red-500/30 text-red-400 px-4 py-2 rounded text-sm"
+            >
               {error}
-            </p>
+            </motion.p>
           )}
 
           <div>
@@ -58,7 +75,7 @@ function Login() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              className="w-full bg-breakbite-dark border border-breakbite-cream/20 rounded px-3 py-2 focus:outline-none focus:border-breakbite-accent"
+              className="w-full bg-breakbite-dark border border-breakbite-cream/20 rounded px-3 py-2 focus:outline-none focus:border-breakbite-accent transition-colors"
               placeholder="you@example.com"
             />
           </div>
@@ -71,18 +88,20 @@ function Login() {
               onChange={(e) => setPassword(e.target.value)}
               required
               minLength={6}
-              className="w-full bg-breakbite-dark border border-breakbite-cream/20 rounded px-3 py-2 focus:outline-none focus:border-breakbite-accent"
+              className="w-full bg-breakbite-dark border border-breakbite-cream/20 rounded px-3 py-2 focus:outline-none focus:border-breakbite-accent transition-colors"
               placeholder="••••••"
             />
           </div>
 
-          <button
+          <motion.button
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
             type="submit"
             disabled={loading}
             className="w-full bg-breakbite-accent text-breakbite-dark font-bold py-2 rounded hover:bg-breakbite-accent/90 transition-colors disabled:opacity-50"
           >
             {loading ? 'Logging in...' : 'Login'}
-          </button>
+          </motion.button>
 
           <p className="text-center text-sm text-breakbite-cream/60">
             Don't have an account?{' '}
@@ -90,8 +109,8 @@ function Login() {
               Sign up
             </Link>
           </p>
-        </form>
-      </div>
+        </motion.form>
+      </motion.div>
     </div>
   )
 }
